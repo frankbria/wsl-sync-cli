@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Text } from 'ink';
-import InkDivider from 'ink-divider';
 
 const Divider = ({ 
   title = '', 
@@ -28,8 +27,12 @@ const Divider = ({
     );
   }
   
-  // Use ink-divider for simple dividers
-  return <InkDivider dividerChar={dividerChar} dividerColor={dividerColor} />;
+  // Simple divider without title
+  return (
+    <Box>
+      <Text color={dividerColor}>{dividerChar.repeat(terminalWidth)}</Text>
+    </Box>
+  );
 };
 
 export default Divider;

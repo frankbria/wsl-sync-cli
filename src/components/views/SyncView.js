@@ -63,6 +63,18 @@ const SyncView = () => {
       return; // Let the modal components handle input
     }
     
+    // Don't process shortcuts when typing in path inputs
+    if (activeComponent === 'source' || activeComponent === 'dest') {
+      // Allow navigation keys and special keys
+      if (!key.tab && !key.return && !key.escape && !key.ctrl && 
+          !key.upArrow && !key.downArrow && !key.leftArrow && !key.rightArrow) {
+        // Only block letter/number inputs that might be shortcuts
+        if (input && input.length === 1) {
+          return;
+        }
+      }
+    }
+    
     // Global shortcuts
     if (key.ctrl && input === 's' && canStartSync()) {
       startSync();
@@ -96,6 +108,8 @@ const SyncView = () => {
     if (key.escape) {
       if (showBrowser) {
         setShowBrowser(false);
+      } else if (showFilterManager) {
+        setShowFilterManager(false);
       } else if (activeComponent === 'preview') {
         setActiveComponent('source');
         setPreview(null);
@@ -316,6 +330,30 @@ const SyncView = () => {
     );
   }
   
+  // Render filter manager if active
+  if (showFilterManager) {
+    return (
+      <Box flexDirection="column">
+        <Divider title="Filter Manager" titleColor="cyan" />
+        <Box marginTop={1}>
+          <FilterManager
+            onApply={(filter) => {
+              setActiveFilter(filter);
+              setShowFilterManager(false);
+              addNotification({
+                type: 'success',
+                message: `Filter applied: ${filter.name || filter.type}`
+              });
+            }}
+            onCancel={() => setShowFilterManager(false)}
+            isActive={true}
+            currentFilter={activeFilter}
+          />
+        </Box>
+      </Box>
+    );
+  }
+  
   // Main sync view
   return (
     <Box flexDirection="column">
@@ -423,32 +461,6 @@ const SyncView = () => {
         </Box>
       )}
       
-      {/* Filter Manager Modal */}
-      {showFilterManager && (
-        <Box position="absolute" width="100%" height="100%">
-          <Box 
-            flexDirection="column" 
-            borderStyle="double" 
-            borderColor="cyan"
-            padding={1}
-            margin={2}
-          >
-            <FilterManager
-              onApply={(filter) => {
-                setActiveFilter(filter);
-                setShowFilterManager(false);
-                addNotification({
-                  type: 'success',
-                  message: `Filter applied: ${filter.name || filter.type}`
-                });
-              }}
-              onCancel={() => setShowFilterManager(false)}
-              isActive={true}
-              currentFilter={activeFilter}
-            />
-          </Box>
-        </Box>
-      )}
     </Box>
   );
 };
