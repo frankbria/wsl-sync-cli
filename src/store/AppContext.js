@@ -199,6 +199,7 @@ const AppContext = createContext();
 // Provider component
 export function AppProvider({ children }) {
   const [state, dispatch] = useReducer(appReducer, initialState);
+  const [settingsManager, setSettingsManager] = React.useState(null);
   
   // Initialize managers
   useEffect(() => {
@@ -213,10 +214,11 @@ export function AppProvider({ children }) {
         dispatch({ type: ActionTypes.SET_WSL_DISTRIBUTIONS, payload: wsl.getDistributions() });
         
         // Initialize settings
-        const settingsManager = new SettingsManager();
-        await settingsManager.initialize();
-        const settings = await settingsManager.loadSettings();
+        const settingsMgr = new SettingsManager();
+        await settingsMgr.initialize();
+        const settings = settingsMgr.getAll();
         dispatch({ type: ActionTypes.SET_SETTINGS, payload: settings });
+        setSettingsManager(settingsMgr);
         
         // Initialize profiles
         const profileManager = new ProfileManager();
@@ -248,6 +250,7 @@ export function AppProvider({ children }) {
   // Context value with state and action creators
   const value = {
     state,
+    settings: settingsManager,
     
     // Navigation actions
     setView: (view) => dispatch({ type: ActionTypes.SET_VIEW, payload: view }),
@@ -268,10 +271,16 @@ export function AppProvider({ children }) {
     deleteProfile: (profileId) => dispatch({ type: ActionTypes.DELETE_PROFILE, payload: profileId }),
     
     // Settings actions
-    updateSetting: (key, value) => dispatch({ 
-      type: ActionTypes.UPDATE_SETTING, 
-      payload: { key, value }
-    }),
+    updateSetting: (key, value) => {
+      dispatch({ 
+        type: ActionTypes.UPDATE_SETTING, 
+        payload: { key, value }
+      });
+      // Also update in settings manager if available
+      if (settingsManager) {
+        settingsManager.settings[key] = value;
+      }
+    },
     
     // Filter actions
     setActiveFilter: (filter) => dispatch({ type: ActionTypes.SET_ACTIVE_FILTER, payload: filter }),
