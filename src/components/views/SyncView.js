@@ -12,7 +12,7 @@ import LoadingSpinner from '../common/LoadingSpinner.js';
 import ErrorMessage from '../common/ErrorMessage.js';
 import SuccessMessage from '../common/SuccessMessage.js';
 import { useApp } from '../../store/index.js';
-import { SyncHandler } from '../../lib/sync-handler.js';
+import { SyncHandler } from '../../../lib/sync-handler.js';
 import path from 'path';
 
 const SyncView = () => {

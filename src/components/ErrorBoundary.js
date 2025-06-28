@@ -76,14 +76,14 @@ class ErrorBoundary extends React.Component {
                   Category: {formattedError.category}
                 </Text>
               </Box>
-              {error.code && (
+              {error && error.code && (
                 <Box marginLeft={2}>
                   <Text color="gray" dimColor>
                     Code: {error.code}
                   </Text>
                 </Box>
               )}
-              {error.path && (
+              {error && error.path && (
                 <Box marginLeft={2}>
                   <Text color="gray" dimColor>
                     Path: {error.path}

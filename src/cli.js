@@ -6,7 +6,7 @@ import { hideBin } from 'yargs/helpers';
 import App from './components/App.js';
 import { ProfileManager } from '../lib/profiles.js';
 import { SettingsManager } from '../lib/settings.js';
-import { SyncHandler } from './lib/sync-handler.js';
+import { SyncHandler } from '../lib/sync-handler.js';
 import { WSLIntegration } from '../lib/wsl-integration.js';
 import { ErrorHandler } from '../lib/error-handler.js';
 import path from 'path';

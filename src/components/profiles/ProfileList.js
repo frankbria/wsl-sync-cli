@@ -4,7 +4,7 @@ import SelectInput from 'ink-select-input';
 import Spinner from 'ink-spinner';
 import ProfileCard from './ProfileCard.js';
 import { useApp } from '../../store/index.js';
-import { ProfileManager } from '../../lib/profiles.js';
+import { ProfileManager } from '../../../lib/profiles.js';
 
 const ProfileList = ({ 
   onSelect, 

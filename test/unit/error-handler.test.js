@@ -3,21 +3,22 @@ import { ErrorHandler, ErrorCategories, ErrorCodes } from '../../lib/error-handl
 import { MockFileSystem } from '../mocks/file-system.js';
 import path from 'path';
 
+// Set up mocks before imports
+const mockFs = new MockFileSystem();
+
+vi.mock('fs/promises', () => ({
+  default: mockFs.getFs().promises
+}));
+
 describe('ErrorHandler', () => {
   let errorHandler;
-  let mockFs;
   
   beforeEach(() => {
-    mockFs = new MockFileSystem();
+    mockFs.clear();
     errorHandler = new ErrorHandler({
       logDir: '/tmp/logs',
       enableLogging: true
     });
-    
-    // Mock fs operations
-    vi.mock('fs/promises', () => ({
-      default: mockFs.getFs().promises
-    }));
   });
   
   afterEach(() => {

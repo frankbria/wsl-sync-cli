@@ -3,7 +3,7 @@ import { Box, Text, useInput } from 'ink';
 import TextInput from 'ink-text-input';
 import SelectInput from 'ink-select-input';
 import { useApp } from '../../store/index.js';
-import { ProfileManager } from '../../lib/profiles.js';
+import { ProfileManager } from '../../../lib/profiles.js';
 import PathInput from '../sync/PathInput.js';
 import Divider from '../common/Divider.js';
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Text, useInput } from 'ink';
 import SelectInput from 'ink-select-input';
 import Divider from '../common/Divider.js';
-import { ProfileManager } from '../../lib/profiles.js';
+import { ProfileManager } from '../../../lib/profiles.js';
 
 const ProfileTemplates = ({ onSelect, onCancel, isActive = false }) => {
   const profileManager = new ProfileManager();

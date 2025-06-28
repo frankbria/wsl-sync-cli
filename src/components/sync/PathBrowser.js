@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Text, useInput } from 'ink';
 import SelectInput from 'ink-select-input';
-import fs from 'fs-extra';
+import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';
 
@@ -24,7 +24,7 @@ const PathBrowser = ({
     
     try {
       // Ensure path exists
-      const exists = await fs.pathExists(dirPath);
+      const exists = await fs.access(dirPath).then(() => true).catch(() => false);
       if (!exists) {
         throw new Error('Directory does not exist');
       }

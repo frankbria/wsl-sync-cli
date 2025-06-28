@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Text, useInput } from 'ink';
 import SelectInput from 'ink-select-input';
 import { useApp } from '../../store/index.js';
-import { FilterManager } from '../../lib/filters.js';
+import { FilterManager } from '../../../lib/filters.js';
 
 const SyncOptions = ({ isActive = false }) => {
   const { state, setSyncDirection, updateSetting, setActiveFilter } = useApp();

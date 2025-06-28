@@ -7,7 +7,7 @@
     "wsl-sync": "bin/wsl-sync.mjs"
   },
   "scripts": {
-    "start": "node src/cli.js",
+    "start": "babel-node --presets @babel/preset-env,@babel/preset-react src/cli.js",
     "dev": "node --watch src/cli.js",
     "test": "vitest",
     "test:ui": "vitest --ui",
@@ -22,20 +22,13 @@
     "docs": "jsdoc -c jsdoc.json",
     "man": "node scripts/generate-man.js"
   },
-  "keywords": [
-    "wsl",
-    "sync",
-    "file-sync",
-    "cli",
-    "terminal"
-  ],
+  "keywords": ["wsl", "sync", "file-sync", "cli", "terminal"],
   "author": "Frank Bria",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/frankbria/wsl-sync-cli.git"
   },
-  "type": "module",
   "dependencies": {
     "@babel/cli": "^7.27.2",
     "@babel/core": "^7.27.7",

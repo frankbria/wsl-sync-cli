@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Box, Text } from 'ink';
 import TextInput from 'ink-text-input';
 import { useApp } from '../../store/index.js';
-import { WSLIntegration } from '../../lib/wsl-integration.js';
-import fs from 'fs-extra';
+import { WSLIntegration } from '../../../lib/wsl-integration.js';
+import fs from 'fs/promises';
 import path from 'path';
 
 const PathInput = ({ 
@@ -63,7 +63,7 @@ const PathInput = ({
         }
       }
       
-      const exists = await fs.pathExists(pathToCheck);
+      const exists = await fs.access(pathToCheck).then(() => true).catch(() => false);
       if (!exists) {
         setIsValid(false);
         setValidationError('Path does not exist');
@@ -102,7 +102,7 @@ const PathInput = ({
       const dir = path.dirname(currentPath);
       const basename = path.basename(currentPath);
       
-      if (await fs.pathExists(dir)) {
+      if (await fs.access(dir).then(() => true).catch(() => false)) {
         const entries = await fs.readdir(dir);
         const dirs = [];
         

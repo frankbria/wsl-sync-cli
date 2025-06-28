@@ -3,7 +3,7 @@ import { Box, Text, useInput } from 'ink';
 import TextInput from 'ink-text-input';
 import SelectInput from 'ink-select-input';
 import { useApp } from '../../store/index.js';
-import { FilterManager as FilterLib } from '../../lib/filters.js';
+import { FilterManager as FilterLib } from '../../../lib/filters.js';
 
 const FilterManager = ({ 
   onApply, 

@@ -20,6 +20,16 @@ export default defineConfig({
     },
     include: ['test/**/*.test.js', 'test/**/*.spec.js'],
     testTimeout: 10000,
-    hookTimeout: 10000
+    hookTimeout: 10000,
+    setupFiles: ['./test/setup.js'],
+    pool: 'forks',
+    poolOptions: {
+      forks: {
+        singleFork: true
+      }
+    }
+  },
+  resolve: {
+    extensions: ['.js', '.jsx', '.json']
   }
 });

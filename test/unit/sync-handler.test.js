@@ -2,9 +2,19 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { SyncHandler } from '../../src/lib/sync-handler.js';
 import { MockFileSystem, createTestStructure, createConflictStructure } from '../mocks/file-system.js';
 
+// Set up mocks before imports
+let mockFs = createTestStructure();
+
+vi.mock('fs/promises', () => ({
+  default: mockFs.getFs().promises
+}));
+
+vi.mock('fs', () => ({
+  default: mockFs.getFs()
+}));
+
 describe('SyncHandler', () => {
   let syncHandler;
-  let mockFs;
   
   beforeEach(() => {
     mockFs = createTestStructure();
@@ -12,15 +22,6 @@ describe('SyncHandler', () => {
       enableRetry: true,
       maxErrors: 10
     });
-    
-    // Mock the file system modules
-    vi.mock('fs/promises', () => ({
-      default: mockFs.getFs().promises
-    }));
-    
-    vi.mock('fs', () => ({
-      default: mockFs.getFs()
-    }));
   });
   
   afterEach(() => {

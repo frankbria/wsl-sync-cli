@@ -10,7 +10,7 @@ import PerformanceSettings from '../settings/PerformanceSettings.js';
 import DisplaySettings from '../settings/DisplaySettings.js';
 import PathSettings from '../settings/PathSettings.js';
 import { SettingsTabNavigation } from '../settings/SettingsNavigation.js';
-import { SettingsManager } from '../../lib/settings.js';
+import { SettingsManager } from '../../../lib/settings.js';
 import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';

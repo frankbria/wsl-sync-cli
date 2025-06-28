@@ -7,8 +7,8 @@ import ProfileList from '../profiles/ProfileList.js';
 import ProfileEditor from '../profiles/ProfileEditor.js';
 import ProfileTemplates from '../profiles/ProfileTemplates.js';
 import { useApp } from '../../store/index.js';
-import { ProfileManager } from '../../lib/profiles.js';
-import { SyncHandler } from '../../lib/sync-handler.js';
+import { ProfileManager } from '../../../lib/profiles.js';
+import { SyncHandler } from '../../../lib/sync-handler.js';
 
 const ProfilesView = () => {
   const { state, setView, setPaths, setSyncDirection, setActiveProfile, addNotification } = useApp();

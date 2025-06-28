@@ -3,10 +3,12 @@ import { Box, Text, useInput } from 'ink';
 import TextInput from 'ink-text-input';
 import SelectInput from 'ink-select-input';
 import { useApp } from '../../store/index.js';
-import { isWSL, convertPath } from '../../lib/wsl-integration.js';
+import { WSLIntegration } from '../../../lib/wsl-integration.js';
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
+
+const wsl = new WSLIntegration();
 
 const PathSettings = ({ isActive = false, onSave, onCancel }) => {
   const { state, updateSetting } = useApp();
