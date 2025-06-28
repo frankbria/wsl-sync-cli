@@ -1,0 +1,42 @@
+{
+  "sourcePath": "/home/user/workspace",
+  "destinationPath": "/mnt/c/Workspace",
+  "direction": "two-way",
+  "deleteOrphaned": false,
+  "workerThreads": 6,
+  "performanceMode": "balanced",
+  "ignorePatterns": [
+    "*"
+  ],
+  "includePatterns": [
+    "projects/active/*",
+    "documents/shared/**",
+    "resources/templates/*",
+    "config/*",
+    "README.md"
+  ],
+  "syncPaths": [
+    {
+      "source": "projects/web-app",
+      "destination": "WebApp",
+      "filter": "code"
+    },
+    {
+      "source": "documents/reports",
+      "destination": "Reports",
+      "filter": "documents"
+    }
+  ],
+  "schedules": [
+    {
+      "name": "work-hours",
+      "cron": "*/15 8-18 * * 1-5",
+      "profile": "active-sync"
+    },
+    {
+      "name": "nightly-backup",
+      "cron": "0 2 * * *",
+      "profile": "full-backup"
+    }
+  ]
+}

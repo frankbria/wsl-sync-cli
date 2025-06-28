@@ -7,6 +7,8 @@ import ProfilesView from './views/ProfilesView.js';
 import SettingsView from './views/SettingsView.js';
 import LoadingSpinner from './common/LoadingSpinner.js';
 import Help from './Help.js';
+import ErrorBoundary from './ErrorBoundary.js';
+import TerminalAdapter from './TerminalAdapter.js';
 
 // Main app content that uses the context
 const AppContent = ({ argv }) => {
@@ -214,9 +216,13 @@ const AppContent = ({ argv }) => {
 // Root App component with provider
 const App = ({ argv }) => {
   return (
-    <AppProvider>
-      <AppContent argv={argv} />
-    </AppProvider>
+    <ErrorBoundary>
+      <TerminalAdapter>
+        <AppProvider>
+          <AppContent argv={argv} />
+        </AppProvider>
+      </TerminalAdapter>
+    </ErrorBoundary>
   );
 };
 

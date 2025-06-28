@@ -1,0 +1,34 @@
+{
+  "sourcePath": "/home/user/Documents",
+  "destinationPath": "/mnt/c/Users/User/Documents",
+  "direction": "mirror",
+  "deleteOrphaned": true,
+  "workerThreads": 4,
+  "performanceMode": "safe",
+  "filter": "documents",
+  "ignorePatterns": [
+    "~$*",
+    "*.tmp",
+    ".~lock.*",
+    "desktop.ini",
+    ".DS_Store"
+  ],
+  "includePatterns": [
+    "*.doc",
+    "*.docx",
+    "*.pdf",
+    "*.txt",
+    "*.md",
+    "*.odt",
+    "*.rtf",
+    "*.tex",
+    "*.xls",
+    "*.xlsx",
+    "*.ppt",
+    "*.pptx"
+  ],
+  "enableVerification": true,
+  "preserveTimestamps": true,
+  "conflictResolution": "newer",
+  "notifications": true
+}

@@ -1,0 +1,34 @@
+{
+  "sourcePath": "/home/user/large-dataset",
+  "destinationPath": "/mnt/e/LargeDataset",
+  "direction": "one-way",
+  "deleteOrphaned": false,
+  "workerThreads": 16,
+  "performanceMode": "max",
+  "batchSize": 500,
+  "enableVerification": false,
+  "preserveTimestamps": true,
+  "preservePermissions": false,
+  "bufferSize": 65536,
+  "concurrentReads": 8,
+  "concurrentWrites": 4,
+  "queueSize": 10000,
+  "memoryLimit": "4GB",
+  "diskIOPriority": "high",
+  "checksumAlgorithm": "xxhash",
+  "compression": false,
+  "deltaSync": true,
+  "ignorePatterns": [
+    "*.tmp",
+    "*.cache",
+    "*.log",
+    "temp/*"
+  ],
+  "optimizations": {
+    "useNativeFS": true,
+    "parallelScanning": true,
+    "batchFileOperations": true,
+    "asyncIO": true,
+    "prefetchMetadata": true
+  }
+}

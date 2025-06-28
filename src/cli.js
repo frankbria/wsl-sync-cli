@@ -8,6 +8,7 @@ import { ProfileManager } from '../lib/profiles.js';
 import { SettingsManager } from '../lib/settings.js';
 import { SyncHandler } from './lib/sync-handler.js';
 import { WSLIntegration } from '../lib/wsl-integration.js';
+import { ErrorHandler } from '../lib/error-handler.js';
 import path from 'path';
 import fs from 'fs/promises';
 import os from 'os';
@@ -99,6 +100,27 @@ const argv = yargs(hideBin(process.argv))
     alias: 'y',
     describe: 'Auto-confirm all prompts',
     type: 'boolean'
+  })
+  .option('no-color', {
+    describe: 'Disable colored output',
+    type: 'boolean'
+  })
+  .option('ascii', {
+    describe: 'Use ASCII characters only (no Unicode)',
+    type: 'boolean'
+  })
+  .option('max-errors', {
+    describe: 'Maximum errors before stopping',
+    type: 'number',
+    default: 50
+  })
+  .option('skip-errors', {
+    describe: 'Skip files with errors and continue',
+    type: 'boolean'
+  })
+  .option('error-log', {
+    describe: 'Path to error log file',
+    type: 'string'
   })
   .conflicts('one-way', 'two-way')
   .conflicts('quiet', 'verbose')
@@ -257,7 +279,13 @@ const handleNonInteractive = async () => {
       filter: argv.filter,
       ignorePatterns: argv.ignore || [],
       verbose: argv.verbose,
-      quiet: argv.quiet
+      quiet: argv.quiet,
+      maxErrors: argv.maxErrors,
+      skipErrors: argv.skipErrors,
+      errorHandling: {
+        enableLogging: true,
+        logDir: argv.errorLog ? path.dirname(argv.errorLog) : undefined
+      }
     };
     
     // Apply config file if specified
@@ -338,11 +366,35 @@ const handleNonInteractive = async () => {
 
 // Main execution
 const main = async () => {
+  // Set environment variables for terminal capabilities
+  if (argv.noColor) {
+    process.env.FORCE_COLOR = '0';
+  }
+  if (argv.ascii) {
+    process.env.WSL_SYNC_ASCII = '1';
+  }
+  
+  // Initialize error handler with custom log path if provided
+  if (argv.errorLog) {
+    const errorHandler = new ErrorHandler({
+      logDir: path.dirname(argv.errorLog),
+      enableLogging: true
+    });
+    await errorHandler.initialize();
+  }
+  
   // Handle non-interactive mode or specific commands
   if (argv.noInteractive || argv.listProfiles || argv.createProfile || 
       (argv.source && argv.destination)) {
     await handleNonInteractive();
   } else {
+    // Check if terminal supports interactive mode
+    if (!process.stdout.isTTY) {
+      console.error('Error: Interactive mode requires a TTY terminal');
+      console.error('Use --no-interactive flag for non-TTY environments');
+      process.exit(EXIT_CODES.GENERAL_ERROR);
+    }
+    
     // Launch interactive UI
     render(<App argv={argv} />);
   }

@@ -1,0 +1,33 @@
+{
+  "sourcePath": "/home/developer/projects",
+  "destinationPath": "/mnt/c/Code/Projects",
+  "direction": "two-way",
+  "deleteOrphaned": false,
+  "workerThreads": 8,
+  "performanceMode": "fast",
+  "filter": "code",
+  "ignorePatterns": [
+    "node_modules/",
+    "venv/",
+    "__pycache__/",
+    "*.pyc",
+    ".git/",
+    ".svn/",
+    "dist/",
+    "build/",
+    "target/",
+    "*.o",
+    "*.so",
+    "*.exe",
+    "*.dll",
+    ".idea/",
+    ".vscode/",
+    "*.log",
+    "*.tmp",
+    ".env",
+    ".env.local"
+  ],
+  "batchSize": 100,
+  "enableVerification": true,
+  "conflictResolution": "prompt"
+}

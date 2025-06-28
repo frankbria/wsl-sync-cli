@@ -1,0 +1,23 @@
+{
+  "sourcePath": "/home/user/media",
+  "destinationPath": "/mnt/d/Backup/Media",
+  "direction": "one-way",
+  "deleteOrphaned": false,
+  "workerThreads": 12,
+  "performanceMode": "max",
+  "filter": "media",
+  "ignorePatterns": [
+    "*.tmp",
+    "*.partial",
+    ".thumbnails/",
+    ".cache/"
+  ],
+  "batchSize": 200,
+  "enableVerification": true,
+  "preserveTimestamps": true,
+  "preservePermissions": false,
+  "followSymlinks": false,
+  "maxFileSize": "10GB",
+  "retryAttempts": 5,
+  "retryDelay": 2000
+}

@@ -2,6 +2,7 @@ import { PerformanceSyncManager } from '../../lib/sync-performance.js';
 import { DeletionManager } from '../../lib/deletion-manager.js';
 import { FilterManager } from '../../lib/filters.js';
 import { WSLIntegration } from '../../lib/wsl-integration.js';
+import { ErrorHandler } from '../../lib/error-handler.js';
 import { EventEmitter } from 'events';
 import path from 'path';
 
@@ -12,13 +13,20 @@ export class SyncHandler extends EventEmitter {
     this.deletionManager = null;
     this.filterManager = null;
     this.wslIntegration = null;
+    this.errorHandler = new ErrorHandler(options.errorHandling || {});
     this.options = options;
     this.isPaused = false;
     this.isStopped = false;
+    this.skipErrors = options.skipErrors || false;
+    this.maxErrors = options.maxErrors || 50;
+    this.errorCount = 0;
   }
   
   // Initialize handlers
   async initialize(state) {
+    // Initialize error handler
+    await this.errorHandler.initialize();
+    
     // Initialize WSL integration
     if (state.wslIntegration) {
       this.wslIntegration = state.wslIntegration;
@@ -372,13 +380,42 @@ export class SyncHandler extends EventEmitter {
       // Note: In production, we'd merge with existing patterns
     }
     
-    // Set up event forwarding
+    // Set up event forwarding with error handling
     this.syncManager.on('progress', (progress) => {
       this.emit('progress', progress);
     });
     
-    this.syncManager.on('error', (error) => {
-      this.emit('error', error);
+    this.syncManager.on('error', async (error, context) => {
+      this.errorCount++;
+      
+      // Log error
+      await this.errorHandler.logError(error, context);
+      
+      // Check if we should stop due to too many errors
+      if (this.errorCount >= this.maxErrors) {
+        this.emit('error', new Error(`Too many errors (${this.errorCount}), stopping sync`));
+        this.isStopped = true;
+        return;
+      }
+      
+      // Handle with retry if enabled
+      if (!this.skipErrors && this.options.enableRetry) {
+        try {
+          await this.errorHandler.handleWithRetry(
+            async () => {
+              // Retry logic would go here
+              throw error; // For now, just throw
+            },
+            context
+          );
+        } catch (retryError) {
+          // Retry failed, emit error
+          this.emit('error', retryError, context);
+        }
+      } else {
+        // Just emit the error
+        this.emit('error', error, context);
+      }
     });
     
     // Perform sync

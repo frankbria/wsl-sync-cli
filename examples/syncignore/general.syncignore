@@ -1,0 +1,138 @@
+# General .syncignore file
+# This file contains common patterns to exclude from synchronization
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+*.stackdump
+
+# Temporary Files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.fuse_hidden*
+.nfs*
+
+# Backup Files
+*.bak
+*.backup
+*.old
+*.orig
+*.original
+
+# Log Files
+*.log
+logs/
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache Directories
+.cache/
+.npm/
+.yarn/
+.pnpm-store/
+__pycache__/
+*.pyc
+.pytest_cache/
+.sass-cache/
+
+# IDE and Editor Files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+*.iml
+.vs/
+*.suo
+*.user
+.history/
+
+# Version Control
+.git/
+.gitignore
+.svn/
+.hg/
+.bzr/
+CVS/
+
+# Dependencies
+node_modules/
+bower_components/
+vendor/
+venv/
+env/
+.env
+virtualenv/
+pip-wheel-metadata/
+
+# Build Output
+dist/
+build/
+out/
+target/
+*.o
+*.so
+*.dylib
+*.dll
+*.exe
+*.app
+*.war
+*.jar
+*.class
+
+# Package Files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Database Files
+*.db
+*.sqlite
+*.sqlite3
+*.mdb
+*.accdb
+
+# Security Sensitive Files
+.env
+.env.*
+*.pem
+*.key
+*.crt
+*.p12
+id_rsa
+id_rsa.pub
+.ssh/
+secrets/
+credentials/
+
+# Large Media Files (optional - uncomment if needed)
+# *.mp4
+# *.avi
+# *.mov
+# *.wmv
+# *.flv
+# *.mkv
+# *.webm
+
+# Project Specific
+.syncignore
+.sync-metadata/
+.sync-state.json

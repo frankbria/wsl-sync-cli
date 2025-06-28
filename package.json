@@ -9,10 +9,17 @@
   "scripts": {
     "start": "node src/cli.js",
     "dev": "node --watch src/cli.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "test:watch": "vitest --watch",
+    "test:bench": "vitest bench",
+    "test:acceptance": "vitest test/acceptance",
     "build": "babel src -d dist",
     "link": "npm link",
-    "unlink": "npm unlink"
+    "unlink": "npm unlink",
+    "docs": "jsdoc -c jsdoc.json",
+    "man": "node scripts/generate-man.js"
   },
   "keywords": ["wsl", "sync", "file-sync", "cli", "terminal"],
   "author": "Frank Bria",
@@ -41,5 +48,14 @@
     "react": "^19.1.0",
     "xdg-basedir": "^5.1.0",
     "yargs": "^18.0.0"
+  },
+  "devDependencies": {
+    "@vitest/ui": "^2.0.0",
+    "@vitest/coverage-v8": "^2.0.0",
+    "vitest": "^2.0.0",
+    "memfs": "^4.0.0",
+    "ink-testing-library": "^3.0.0",
+    "jsdoc": "^4.0.0",
+    "marked-man": "^2.0.0"
   }
 }

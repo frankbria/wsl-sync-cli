@@ -1,0 +1,14 @@
+{
+  "sourcePath": "/home/user/documents",
+  "destinationPath": "/mnt/c/Users/Username/Documents",
+  "direction": "two-way",
+  "deleteOrphaned": true,
+  "workerThreads": 4,
+  "performanceMode": "balanced",
+  "ignorePatterns": [
+    "*.tmp",
+    "~*",
+    ".DS_Store",
+    "Thumbs.db"
+  ]
+}
