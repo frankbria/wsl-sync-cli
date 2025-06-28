@@ -1,0 +1,22 @@
+{
+  "sourcePath": "/home/user/documents",
+  "destinationPath": "/mnt/c/Users/User/Documents",
+  "direction": "two-way",
+  "deleteOrphaned": true,
+  "workerThreads": 4,
+  "filter": null,
+  "ignorePatterns": [
+    "*.tmp",
+    "*.log",
+    "node_modules/",
+    ".git/",
+    ".vscode/",
+    "*.swp"
+  ],
+  "performanceMode": "balanced",
+  "enableVerification": false,
+  "conflictResolution": "newer",
+  "preservePermissions": true,
+  "batchSize": 50,
+  "notificationLevel": "all"
+}

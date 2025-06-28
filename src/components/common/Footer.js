@@ -9,35 +9,39 @@ const Footer = () => {
   // Define shortcuts based on current view
   const getShortcuts = () => {
     const common = [
+      { key: 'F1/?', action: 'Help' },
       { key: 'Tab', action: 'Switch View' },
-      { key: 'Ctrl+C', action: 'Exit' }
+      { key: 'Q', action: 'Quit' }
     ];
     
     switch (currentView) {
       case 'sync':
         return [
           ...common,
-          { key: 'Enter', action: 'Start Sync' },
-          { key: 'P', action: 'Pause/Resume' },
-          { key: 'S', action: 'Stop' },
-          { key: 'D', action: 'Dry Run' }
+          { key: 'Ctrl+S', action: 'Start' },
+          { key: 'Ctrl+P', action: 'Pause' },
+          { key: 'Ctrl+C', action: 'Cancel' },
+          { key: 'F', action: 'Filter' },
+          { key: 'I', action: 'Ignore' }
         ];
       case 'profiles':
         return [
           ...common,
           { key: '↑↓', action: 'Navigate' },
-          { key: 'Enter', action: 'Select' },
-          { key: 'N', action: 'New Profile' },
+          { key: 'Enter', action: 'Load' },
+          { key: 'N', action: 'New' },
           { key: 'E', action: 'Edit' },
-          { key: 'Del', action: 'Delete' }
+          { key: 'D', action: 'Delete' },
+          { key: 'S', action: 'Quick Sync' }
         ];
       case 'settings':
         return [
           ...common,
-          { key: '↑↓', action: 'Navigate' },
+          { key: '←→', action: 'Section' },
           { key: 'Enter', action: 'Edit' },
-          { key: 'S', action: 'Save' },
-          { key: 'R', action: 'Reset' }
+          { key: 'Ctrl+S', action: 'Save' },
+          { key: 'Ctrl+R', action: 'Reset' },
+          { key: 'Ctrl+E', action: 'Export' }
         ];
       default:
         return common;

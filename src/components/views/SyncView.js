@@ -6,11 +6,14 @@ import PathBrowser from '../sync/PathBrowser.js';
 import SyncOptions from '../sync/SyncOptions.js';
 import SyncProgress from '../sync/SyncProgress.js';
 import SyncPreview from '../sync/SyncPreview.js';
+import SyncignoreEditor from '../sync/SyncignoreEditor.js';
+import FilterManager from '../sync/FilterManager.js';
 import LoadingSpinner from '../common/LoadingSpinner.js';
 import ErrorMessage from '../common/ErrorMessage.js';
 import SuccessMessage from '../common/SuccessMessage.js';
 import { useApp } from '../../store/index.js';
 import { SyncHandler } from '../../lib/sync-handler.js';
+import path from 'path';
 
 const SyncView = () => {
   const { 
@@ -39,6 +42,9 @@ const SyncView = () => {
   const [syncHandler, setSyncHandler] = useState(null);
   const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [showSyncignore, setShowSyncignore] = useState(false);
+  const [showFilterManager, setShowFilterManager] = useState(false);
+  const [activeFilter, setActiveFilter] = useState(null);
   
   // Initialize sync handler
   useEffect(() => {
@@ -52,6 +58,11 @@ const SyncView = () => {
   
   // Keyboard navigation
   useInput((input, key) => {
+    // Handle modal dialogs first
+    if (showSyncignore || showFilterManager) {
+      return; // Let the modal components handle input
+    }
+    
     // Global shortcuts
     if (key.ctrl && input === 's' && canStartSync()) {
       startSync();
@@ -60,6 +71,25 @@ const SyncView = () => {
     
     if (key.ctrl && input === 'd' && canStartSync()) {
       generatePreview();
+      return;
+    }
+    
+    // Open syncignore editor
+    if (input === 'i' || input === 'I') {
+      if (sourcePath) {
+        setShowSyncignore(true);
+      } else {
+        addNotification({
+          type: 'warning',
+          message: 'Please select a source path first'
+        });
+      }
+      return;
+    }
+    
+    // Open filter manager
+    if (input === 'f' || input === 'F') {
+      setShowFilterManager(true);
       return;
     }
     
@@ -341,7 +371,7 @@ const SyncView = () => {
       )}
       
       {/* Action buttons */}
-      {syncStatus === 'idle' || syncStatus === 'completed' && (
+      {(syncStatus === 'idle' || syncStatus === 'completed') && (
         <Box marginTop={2} gap={3}>
           <Text color="gray">Actions: </Text>
           <Box>
@@ -356,6 +386,66 @@ const SyncView = () => {
           </Box>
           <Box>
             <Text color="cyan">B: Browse Folders</Text>
+          </Box>
+          <Box>
+            <Text color="cyan">I: Edit Ignore</Text>
+          </Box>
+          <Box>
+            <Text color="cyan">F: Filters</Text>
+          </Box>
+        </Box>
+      )}
+      
+      {/* Syncignore Editor Modal */}
+      {showSyncignore && (
+        <Box position="absolute" width="100%" height="100%">
+          <Box 
+            flexDirection="column" 
+            borderStyle="double" 
+            borderColor="cyan"
+            padding={1}
+            margin={2}
+          >
+            <SyncignoreEditor
+              syncignorePath={path.join(sourcePath, '.syncignore')}
+              onSave={(patterns) => {
+                setShowSyncignore(false);
+                addNotification({
+                  type: 'success',
+                  message: 'Syncignore patterns saved'
+                });
+              }}
+              onCancel={() => setShowSyncignore(false)}
+              isActive={true}
+              testPath={sourcePath}
+            />
+          </Box>
+        </Box>
+      )}
+      
+      {/* Filter Manager Modal */}
+      {showFilterManager && (
+        <Box position="absolute" width="100%" height="100%">
+          <Box 
+            flexDirection="column" 
+            borderStyle="double" 
+            borderColor="cyan"
+            padding={1}
+            margin={2}
+          >
+            <FilterManager
+              onApply={(filter) => {
+                setActiveFilter(filter);
+                setShowFilterManager(false);
+                addNotification({
+                  type: 'success',
+                  message: `Filter applied: ${filter.name || filter.type}`
+                });
+              }}
+              onCancel={() => setShowFilterManager(false)}
+              isActive={true}
+              currentFilter={activeFilter}
+            />
           </Box>
         </Box>
       )}
